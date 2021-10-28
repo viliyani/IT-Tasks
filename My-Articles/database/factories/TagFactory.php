@@ -21,8 +21,10 @@ class TagFactory extends Factory
      */
     public function definition()
     {
+        $uniqueTagName = $this->faker->word.rand(10,99);
+
         return [
-            'name' => $this->faker->word
+            'name' => $uniqueTagName
         ];
     }
 }
