@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends BaseApiController
 {
@@ -203,7 +204,7 @@ class ArticleController extends BaseApiController
     {
         // Validate input
         $rules = [
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:4096',
+            // 'image' => 'image|mimes:jpeg,png,jpg,gif|max:4096',
         ];
 
         if ($isUpdateValidation === false) {
@@ -229,6 +230,26 @@ class ArticleController extends BaseApiController
     {
         $imagePath = '';
 
+        // New -> Upload Image by Base 64 Encode
+        if ($request->has('image')) {
+            $image = $request->image;
+            $imageInfo = explode(";base64,", $image);
+            $extension = str_replace('data:image/', '', $imageInfo[0]);
+            $image = str_replace(' ', '+', $imageInfo[1]);
+
+            $allowedExtensions = array('jpeg', 'png', 'gif');
+
+            if (in_array($extension, $allowedExtensions)) {
+                $imageFileName = 'img-' . time() . '-' . rand(1000, 9999) . '.' . $extension;
+                $articleImagesDir = DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'articles' . DIRECTORY_SEPARATOR;
+                $imagePath = $articleImagesDir . $imageFileName;
+
+                file_put_contents(public_path() . $imagePath, base64_decode($image));
+            }
+        }
+
+        /* 
+        ## Old -> Upload Image by multipart/form-data  
         if ($request->hasfile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
@@ -236,7 +257,8 @@ class ArticleController extends BaseApiController
             $articleImagesDir = 'images/articles/';
             $imagePath = $articleImagesDir . $imageFileName;
             $file->move($articleImagesDir, $imageFileName);
-        }
+        } 
+        */
 
         return $imagePath;
     }
