@@ -1,0 +1,57 @@
+.page-title {
+    font-size: 1.8rem;
+}
+
+.button-box-container {
+    padding: 10px 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.button-box {
+    border: 2px solid #000000;
+    padding: 5px 5px;
+}
+
+.icon-box {
+    font-size: 65px;
+    font-weight: 800;
+}
+
+.button-overlay-info {
+    position: absolute;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    padding: 5px 5px;
+    background: rgba(173, 173, 133, 0.5);
+    display: none;
+}
+
+.button-title-box {
+    padding: 5px;
+    border: 1px solid #4d4d33;
+    background: #ffffff;
+    color: #000000;
+    font-weight: 700;
+    display: none;
+}
+
+.position-info {
+    padding: 2px;
+    border: 1px solid #000000;
+    background: #ffffff;
+}
+
+.button-data-options {
+    display: none;
+}
+
+.close-modifier-btn {
+    display: none;
+}
